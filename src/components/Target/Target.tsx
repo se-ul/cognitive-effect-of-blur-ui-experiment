@@ -20,7 +20,6 @@ export const Target: React.FC<TargetProps> = ({
   return (
     <Container
       style={{
-        transform: `rotate(${value * 90}deg)`,
         width,
         height,
         color: isCorrected ? "green" : "inherit",
@@ -32,7 +31,7 @@ export const Target: React.FC<TargetProps> = ({
         }
       }}
     >
-      C
+      <span style={{ transform: `rotate(${value * 90}deg)` }}>C</span>
     </Container>
   );
 };
