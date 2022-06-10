@@ -26,7 +26,7 @@ export function useTargetsPerPage(
     setTargets([
       ...targets.slice(0, startIndex),
       ...newValues,
-      ...targets.slice(endIndex + 1),
+      ...targets.slice(endIndex),
     ]);
 
   return {
