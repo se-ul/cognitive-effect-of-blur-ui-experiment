@@ -6,7 +6,7 @@ interface TargetGroupProps {
   values: TargetModel[];
   numberOfColumns: number;
   numberOfRows: number;
-  onChange: (values: TargetModel[]) => void;
+  onChange: (values: TargetModel[], correctness: boolean) => void;
 }
 
 export const TargetGroup: React.FC<TargetGroupProps> = ({
@@ -25,14 +25,17 @@ export const TargetGroup: React.FC<TargetGroupProps> = ({
           height={`${100 / numberOfRows}%`}
           checked={checked}
           onCheck={() =>
-            onChange([
-              ...values.slice(0, index),
-              {
-                value: value,
-                checked: true,
-              },
-              ...values.slice(index + 1),
-            ])
+            onChange(
+              [
+                ...values.slice(0, index),
+                {
+                  value: value,
+                  checked: true,
+                },
+                ...values.slice(index + 1),
+              ],
+              value === 3
+            )
           }
         />
       ))}

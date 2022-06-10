@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { Modal, TargetGroup } from "../components";
 import {
-  expData1,
+  expData,
   numberOfBackgroundTargetsPerPage,
   numberOfModalTargetsPerPage,
   numberOfSets,
@@ -13,7 +13,18 @@ import { useTargetsPerPage } from "../hooks";
 
 const Home: NextPage = () => {
   const [rest, setRest] = useState(true);
+  const [experimentPage, setExperimentPage] = useState(0);
   const [page, setPage] = useState(0);
+  const [result, setResult] = useState<
+    {
+      experimentType: number;
+      setNumber: number;
+      timestamp: number;
+      place: "background" | "modal";
+      correctness: boolean;
+    }[]
+  >([]);
+  const [startTimestap, setStartTimestamp] = useState(new Date().getTime());
 
   const {
     currentTargets: currentBackgroundTargets,
@@ -21,7 +32,7 @@ const Home: NextPage = () => {
     remainedTargetCount,
     setCurrentTarget: setCurrentBackgroundTargets,
   } = useTargetsPerPage(
-    expData1.backgroundValues,
+    expData[experimentPage].backgroundValues,
     page,
     numberOfBackgroundTargetsPerPage
   );
@@ -30,7 +41,7 @@ const Home: NextPage = () => {
     remainedTargetCount: remainedModalTargetCount,
     setCurrentTarget: setCurrentModalTargets,
   } = useTargetsPerPage(
-    expData1.modalValues,
+    expData[experimentPage].modalValues,
     page,
     numberOfModalTargetsPerPage
   );
@@ -41,6 +52,13 @@ const Home: NextPage = () => {
       setPage((page) => page + 1);
     }
   }, [remainedTargetCount]);
+
+  useEffect(() => {
+    if (page >= numberOfSets) {
+      setExperimentPage((page) => page + 1);
+      setPage(0);
+    }
+  }, [page]);
 
   return (
     <>
@@ -53,7 +71,14 @@ const Home: NextPage = () => {
       {rest ? (
         <RestContainer>
           현재 단계: {page + 1} / 총 단계: {numberOfSets}
-          <StartButton onClick={() => setRest(false)}>시작하기</StartButton>
+          <StartButton
+            onClick={() => {
+              setRest(false);
+              setStartTimestamp(new Date().getTime());
+            }}
+          >
+            시작하기
+          </StartButton>
         </RestContainer>
       ) : (
         <>
@@ -68,7 +93,20 @@ const Home: NextPage = () => {
               values={currentBackgroundTargets}
               numberOfColumns={4}
               numberOfRows={5}
-              onChange={setCurrentBackgroundTargets}
+              onChange={(values, correctness) => {
+                setCurrentBackgroundTargets(values);
+                setResult((lastValue) => [
+                  ...lastValue,
+                  {
+                    experimentType: experimentPage,
+                    setNumber: page,
+                    timestamp: new Date().getTime() - startTimestap,
+                    place: "background",
+                    correctness,
+                  },
+                ]);
+                console.log(result);
+              }}
             />
           </Content>
 
@@ -76,7 +114,20 @@ const Home: NextPage = () => {
             remainedModalTargetCount > 0 && (
               <Modal
                 values={currentModalTargets}
-                onChange={setCurrentModalTargets}
+                onChange={(values, correctness) => {
+                  setCurrentModalTargets(values);
+                  setResult((lastValue) => [
+                    ...lastValue,
+                    {
+                      experimentType: experimentPage,
+                      setNumber: page,
+                      timestamp: new Date().getTime() - startTimestap,
+                      place: "modal",
+                      correctness,
+                    },
+                  ]);
+                  console.log(result);
+                }}
               />
             )}
         </>

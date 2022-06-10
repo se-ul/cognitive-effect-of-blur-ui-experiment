@@ -4,7 +4,7 @@ import { TargetGroup } from "../TargetGroup";
 
 interface ModalProps {
   values: TargetModel[];
-  onChange: (values: TargetModel[]) => void;
+  onChange: (values: TargetModel[], correctness: boolean) => void;
 }
 
 export const Modal: React.FC<ModalProps> = ({ values, onChange }) => {
