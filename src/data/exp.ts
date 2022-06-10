@@ -10,3 +10,21 @@ export const expData1 = {
     () => Math.floor(Math.random() * 4)
   ),
 };
+
+export const expData2 = {
+  backgroundValues: [
+    ...new Array(numberOfBackgroundTargetsPerPage * numberOfSets),
+  ].map(() => Math.floor(Math.random() * 4)),
+  modalValues: [...new Array(numberOfModalTargetsPerPage * numberOfSets)].map(
+    () => Math.floor(Math.random() * 4)
+  ),
+};
+
+export const expData3 = {
+  backgroundValues: [
+    ...new Array(numberOfBackgroundTargetsPerPage * numberOfSets),
+  ].map(() => Math.floor(Math.random() * 4)),
+  modalValues: [...new Array(numberOfModalTargetsPerPage * numberOfSets)].map(
+    () => Math.floor(Math.random() * 4)
+  ),
+};
