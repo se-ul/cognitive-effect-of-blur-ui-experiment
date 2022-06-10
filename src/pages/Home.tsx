@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Modal, TargetGroup } from "../components";
 import {
@@ -10,8 +11,12 @@ import {
   numberOfSets,
 } from "../data/exp";
 import { useTargetsPerPage } from "../hooks";
+import { recordResult } from "../modules/firebase";
 
 const Home: NextPage = () => {
+  const router = useRouter();
+  const [userName, setUserName] = useState("");
+  const [userNameInput, setUserNameInput] = useState("");
   const [rest, setRest] = useState(true);
   const [experimentPage, setExperimentPage] = useState(0);
   const [page, setPage] = useState(0);
@@ -34,7 +39,8 @@ const Home: NextPage = () => {
   } = useTargetsPerPage(
     expData[experimentPage].backgroundValues,
     page,
-    numberOfBackgroundTargetsPerPage
+    numberOfBackgroundTargetsPerPage,
+    experimentPage
   );
   const {
     currentTargets: currentModalTargets,
@@ -43,7 +49,8 @@ const Home: NextPage = () => {
   } = useTargetsPerPage(
     expData[experimentPage].modalValues,
     page,
-    numberOfModalTargetsPerPage
+    numberOfModalTargetsPerPage,
+    experimentPage
   );
 
   useEffect(() => {
@@ -55,8 +62,9 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (page >= numberOfSets) {
-      setExperimentPage((page) => page + 1);
-      setPage(0);
+      recordResult({ name: userName, result });
+      setResult([]);
+      router.replace(`/result?group=0&experimentType=${experimentPage + 1}`);
     }
   }, [page]);
 
@@ -68,7 +76,20 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {rest ? (
+      {userName === "" ? (
+        <RestContainer>
+          <CheckInForm>
+            <label htmlFor="userName">닉네임을 입력해주세요: </label>
+            <input
+              id="userName"
+              type="text"
+              value={userNameInput}
+              onChange={(event) => setUserNameInput(event.target.value)}
+            />
+            <button onClick={() => setUserName(userNameInput)}>시작하기</button>
+          </CheckInForm>
+        </RestContainer>
+      ) : rest ? (
         <RestContainer>
           현재 단계: {page + 1} / 총 단계: {numberOfSets}
           <StartButton
@@ -105,7 +126,6 @@ const Home: NextPage = () => {
                     correctness,
                   },
                 ]);
-                console.log(result);
               }}
             />
           </Content>
@@ -126,7 +146,6 @@ const Home: NextPage = () => {
                       correctness,
                     },
                   ]);
-                  console.log(result);
                 }}
               />
             )}
@@ -166,4 +185,8 @@ const RestContainer = styled.div`
 const StartButton = styled.button`
   padding: 8px 12px;
   margin-top: 20px;
+`;
+
+const CheckInForm = styled.form`
+  background-color: white;
 `;

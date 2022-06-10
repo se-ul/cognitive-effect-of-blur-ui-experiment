@@ -1,6 +1,6 @@
 export const numberOfBackgroundTargetsPerPage = 20;
 export const numberOfModalTargetsPerPage = 9;
-export const numberOfSets = 5;
+export const numberOfSets = 3;
 
 export const expData = [
   {

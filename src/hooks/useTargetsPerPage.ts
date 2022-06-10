@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TargetModel } from "../models";
 
 export function useTargetsPerPage(
   initialValues: number[],
   page: number,
-  numberOfTargetsPerPage: number
+  numberOfTargetsPerPage: number,
+  experimentPage: number
 ) {
   const [targets, setTargets] = useState<TargetModel[]>(
     initialValues.map((value) => ({ value, checked: false }))
@@ -28,6 +29,10 @@ export function useTargetsPerPage(
       ...newValues,
       ...targets.slice(endIndex),
     ]);
+
+  useEffect(() => {
+    setTargets(initialValues.map((value) => ({ value, checked: false })));
+  }, [experimentPage]);
 
   return {
     currentTargets,
