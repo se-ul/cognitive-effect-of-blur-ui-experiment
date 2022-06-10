@@ -1,25 +1,39 @@
 import styled from "@emotion/styled";
+import { TargetModel } from "../../models";
 import { Target } from "../Target";
 
 interface TargetGroupProps {
-  values: number[];
+  values: TargetModel[];
   numberOfColumns: number;
   numberOfRows: number;
+  onChange: (values: TargetModel[]) => void;
 }
 
 export const TargetGroup: React.FC<TargetGroupProps> = ({
   values,
   numberOfColumns,
   numberOfRows,
+  onChange,
 }) => {
   return (
     <Content>
-      {values.map((value, index) => (
+      {values.map(({ value, checked }, index) => (
         <Target
           key={index}
           value={value}
           width={`${100 / numberOfColumns}%`}
           height={`${100 / numberOfRows}%`}
+          checked={checked}
+          onCheck={() =>
+            onChange([
+              ...values.slice(0, index),
+              {
+                value: value,
+                checked: true,
+              },
+              ...values.slice(index + 1),
+            ])
+          }
         />
       ))}
     </Content>

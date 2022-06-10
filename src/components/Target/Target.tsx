@@ -1,14 +1,21 @@
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import React from "react";
 
 interface TargetProps {
   value: number;
   width: string;
   height: string;
+  checked: boolean;
+  onCheck: () => void;
 }
 
-export const Target: React.FC<TargetProps> = ({ value, width, height }) => {
-  const [checked, setChecked] = useState(false);
+export const Target: React.FC<TargetProps> = ({
+  value,
+  width,
+  height,
+  checked,
+  onCheck,
+}) => {
   const isCorrected = checked && value === 3;
   return (
     <Container
@@ -19,7 +26,11 @@ export const Target: React.FC<TargetProps> = ({ value, width, height }) => {
         color: isCorrected ? "green" : "inherit",
         opacity: checked && !isCorrected ? 0.3 : 1,
       }}
-      onClick={() => setChecked(true)}
+      onClick={() => {
+        if (!checked) {
+          onCheck();
+        }
+      }}
     >
       C
     </Container>

@@ -1,15 +1,22 @@
 import styled from "@emotion/styled";
+import { TargetModel } from "../../models";
 import { TargetGroup } from "../TargetGroup";
 
 interface ModalProps {
-  values: number[];
+  values: TargetModel[];
+  onChange: (values: TargetModel[]) => void;
 }
 
-export const Modal: React.FC<ModalProps> = ({ values }) => {
+export const Modal: React.FC<ModalProps> = ({ values, onChange }) => {
   return (
     <Overlay>
       <Content>
-        <TargetGroup values={values} numberOfColumns={3} numberOfRows={3} />
+        <TargetGroup
+          values={values}
+          numberOfColumns={3}
+          numberOfRows={3}
+          onChange={onChange}
+        />
       </Content>
     </Overlay>
   );
