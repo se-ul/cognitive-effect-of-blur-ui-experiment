@@ -34,4 +34,9 @@ const Content = styled.div`
   color: white;
   font-size: 40px;
   user-select: none;
+
+  background-color: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+  border-radius: 24px;
+  padding: 12px;
 `;

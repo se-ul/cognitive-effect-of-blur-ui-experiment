@@ -30,6 +30,6 @@ const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
   user-select: none;
-
   font-size: 20px;
+  background-color: white;
 `;

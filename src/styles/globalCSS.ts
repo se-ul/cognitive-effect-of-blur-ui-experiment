@@ -6,6 +6,7 @@ export const globalCSS = css`
 
   html, body, #__next {
     height: 100%;
+    background-color: black;
   }
 
   body {
