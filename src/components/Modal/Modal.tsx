@@ -1,14 +1,16 @@
 import styled from "@emotion/styled";
 import { Target } from "../Target";
 
-const values = [...new Array(9)].map(() => Math.floor(Math.random() * 4));
+interface ModalProps {
+  values: number[];
+}
 
-export const Modal: React.FC = () => {
+export const Modal: React.FC<ModalProps> = ({ values }) => {
   return (
     <Overlay>
       <Content>
         {values.map((value, index) => (
-          <Target key={index} value={value} width="33.333%" />
+          <Target key={index} value={value} width="33.333%" height="100px" />
         ))}
       </Content>
     </Overlay>

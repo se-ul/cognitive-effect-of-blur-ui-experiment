@@ -4,9 +4,10 @@ import React, { useState } from "react";
 interface TargetProps {
   value: number;
   width: string;
+  height: string;
 }
 
-export const Target: React.FC<TargetProps> = ({ value, width }) => {
+export const Target: React.FC<TargetProps> = ({ value, width, height }) => {
   const [checked, setChecked] = useState(false);
   const isCorrected = checked && value === 3;
   return (
@@ -14,6 +15,7 @@ export const Target: React.FC<TargetProps> = ({ value, width }) => {
       style={{
         transform: `rotate(${value * 90}deg)`,
         width,
+        height,
         color: isCorrected ? "green" : "inherit",
         opacity: checked && !isCorrected ? 0.3 : 1,
       }}
@@ -29,5 +31,4 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   font-size: inherit;
-  height: 100px;
 `;

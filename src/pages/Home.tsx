@@ -1,11 +1,13 @@
 import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { useState } from "react";
 import { Modal, Target } from "../components";
-
-const values = [...new Array(50)].map(() => Math.floor(Math.random() * 4));
+import { expData1 } from "../data/exp-1";
 
 const Home: NextPage = () => {
+  const [page, setPage] = useState(0);
+
   return (
     <>
       <Head>
@@ -15,11 +17,13 @@ const Home: NextPage = () => {
       </Head>
 
       <Content>
-        {values.map((value, index) => (
-          <Target key={index} value={value} width="25%" />
-        ))}
+        {expData1.backgroundValues
+          .slice(page * 20, (page + 1) * 20)
+          .map((value, index) => (
+            <Target key={index} value={value} width="25%" height="20vh" />
+          ))}
       </Content>
-      <Modal />
+      <Modal values={expData1.modalValues} />
     </>
   );
 };
@@ -30,6 +34,6 @@ const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
   user-select: none;
-  font-size: 20px;
+  font-size: 32px;
   background-color: white;
 `;
