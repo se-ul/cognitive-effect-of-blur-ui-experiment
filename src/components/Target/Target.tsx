@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import React from "react";
+import React, { useState } from "react";
 
 interface TargetProps {
   value: number;
@@ -7,8 +7,18 @@ interface TargetProps {
 }
 
 export const Target: React.FC<TargetProps> = ({ value, width }) => {
+  const [checked, setChecked] = useState(false);
+  const isCorrected = checked && value === 3;
   return (
-    <Container style={{ transform: `rotate(${value * 90}deg)`, width }}>
+    <Container
+      style={{
+        transform: `rotate(${value * 90}deg)`,
+        width,
+        color: isCorrected ? "green" : "inherit",
+        opacity: checked && !isCorrected ? 0.3 : 1,
+      }}
+      onClick={() => setChecked(true)}
+    >
       C
     </Container>
   );
