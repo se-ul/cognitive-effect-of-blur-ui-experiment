@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState } from "react";
-import { Modal, Target } from "../components";
+import { Modal, TargetGroup } from "../components";
 import { expData1 } from "../data/exp-1";
 
 const Home: NextPage = () => {
@@ -17,12 +17,13 @@ const Home: NextPage = () => {
       </Head>
 
       <Content>
-        {expData1.backgroundValues
-          .slice(page * 20, (page + 1) * 20)
-          .map((value, index) => (
-            <Target key={index} value={value} width="25%" height="20vh" />
-          ))}
+        <TargetGroup
+          values={expData1.backgroundValues.slice(page * 20, (page + 1) * 20)}
+          numberOfColumns={4}
+          numberOfRows={5}
+        />
       </Content>
+
       <Modal values={expData1.modalValues} />
     </>
   );
@@ -31,9 +32,7 @@ const Home: NextPage = () => {
 export default Home;
 
 const Content = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  user-select: none;
-  font-size: 32px;
   background-color: white;
+  font-size: 32px;
+  height: 100%;
 `;

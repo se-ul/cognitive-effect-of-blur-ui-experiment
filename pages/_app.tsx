@@ -1,6 +1,6 @@
 import { Global } from "@emotion/react";
 import type { AppProps } from "next/app";
-import { RenderOnClient } from "../src/components/RenderOnClient";
+import { RenderOnClient } from "../src/components";
 import { globalCSS } from "../src/styles";
 
 function MyApp({ Component, pageProps }: AppProps) {

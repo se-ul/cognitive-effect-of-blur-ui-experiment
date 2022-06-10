@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Target } from "../Target";
+import { TargetGroup } from "../TargetGroup";
 
 interface ModalProps {
   values: number[];
@@ -9,9 +9,7 @@ export const Modal: React.FC<ModalProps> = ({ values }) => {
   return (
     <Overlay>
       <Content>
-        {values.map((value, index) => (
-          <Target key={index} value={value} width="33.333%" height="100px" />
-        ))}
+        <TargetGroup values={values} numberOfColumns={3} numberOfRows={3} />
       </Content>
     </Overlay>
   );
@@ -35,7 +33,7 @@ const Overlay = styled.div`
 const Content = styled.div`
   color: white;
   font-size: 40px;
-  user-select: none;
+  height: 312px;
 
   background-color: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(4px);
