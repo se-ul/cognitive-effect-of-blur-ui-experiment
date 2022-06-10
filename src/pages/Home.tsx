@@ -48,7 +48,7 @@ const Home: NextPage = () => {
       </Head>
 
       <StatusBar>
-        <span>
+        <span style={{ backgroundColor: "white", fontSize: 20 }}>
           {remainedTargetCount} / {targetCount}
         </span>
       </StatusBar>

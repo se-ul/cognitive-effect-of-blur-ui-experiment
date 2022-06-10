@@ -22,7 +22,7 @@ export const Target: React.FC<TargetProps> = ({
       style={{
         width,
         height,
-        color: isCorrected ? "green" : "inherit",
+        backgroundColor: isCorrected ? "green" : checked ? "grey" : "inherit",
         opacity: checked && !isCorrected ? 0.3 : 1,
       }}
       onClick={() => {
