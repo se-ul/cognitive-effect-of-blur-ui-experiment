@@ -19,6 +19,21 @@ const Experiment: NextPage = () => {
 
       <RestContainer>
         <CheckInForm>
+          <h1>안녕하세요</h1>
+          <p>실험 전 아래 내용을 잘 읽어주세요.</p>
+          <h2 style={{ fontSize: 16, margin: 0 }}>유의사항</h2>
+          <ul>
+            <li>실험 방법을 충분히 숙지해주세요</li>
+            <li>
+              실험은 <b style={{ color: "red" }}>한 번만 참여해주세요</b>
+            </li>
+          </ul>
+          <h2 style={{ fontSize: 16, margin: 0 }}>수집하는 정보</h2>
+          <ul>
+            <li>닉네임</li>
+            <li>실험 과정의 정확도와 소요 시간</li>
+          </ul>
+
           <label htmlFor="userName">
             *띄어쓰기, 특수문자는 사용하지 말아주세요
           </label>
@@ -39,6 +54,7 @@ const Experiment: NextPage = () => {
                 )}&experimentPage=0`
               );
             }}
+            disabled={userName.length === 0}
           >
             시작하기
           </StartButton>
@@ -55,7 +71,6 @@ const RestContainer = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
 `;
 
@@ -65,11 +80,13 @@ const StartButton = styled.button`
 `;
 
 const CheckInForm = styled.form`
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 20px;
   background-color: white;
+  overflow: scroll;
+  padding: 20px 20px;
 
   gap: 12px;
 `;
