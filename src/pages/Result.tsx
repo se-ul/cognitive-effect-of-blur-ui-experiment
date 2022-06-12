@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 const Result: NextPage = () => {
   const router = useRouter();
 
-  const { userName, group, experimentPage } = router.query;
+  const { userName, id, group, experimentPage } = router.query;
 
   return (
     <Center>
@@ -25,7 +25,7 @@ const Result: NextPage = () => {
               router.replace(`/finish?userName=${userName}`);
             } else {
               router.replace(
-                `/experiment?userName=${userName}&group=${group}&experimentPage=${
+                `/experiment?userName=${userName}&id=${id}&group=${group}&experimentPage=${
                   Number(experimentPage) + 1
                 }`
               );

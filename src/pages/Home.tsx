@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 const Experiment: NextPage = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const Experiment: NextPage = () => {
             onClick={(event) => {
               event.preventDefault();
               router.replace(
-                `/experiment?userName=${userName}&group=${Math.floor(
+                `/experiment?userName=${userName}&id=${uuidv4()}&group=${Math.floor(
                   Math.random() * 3
                 )}&experimentPage=0`
               );

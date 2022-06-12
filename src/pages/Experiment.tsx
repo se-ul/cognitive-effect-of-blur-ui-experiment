@@ -16,6 +16,7 @@ import { recordResult } from "../modules/firebase";
 const Experiment: NextPage = () => {
   const router = useRouter();
   const userName = router.query.userName;
+  const id = router.query.id;
   const group = Number(router.query.group);
   const experimentPage = Number(router.query.experimentPage);
   const [rest, setRest] = useState(true);
@@ -71,9 +72,9 @@ const Experiment: NextPage = () => {
 
   useEffect(() => {
     if (page >= numberOfSets && !rest) {
-      recordResult({ name: userName, group, experimentPage, result });
+      recordResult({ id, name: userName, group, experimentPage, result });
       router.replace(
-        `/result?userName=${userName}&group=${group}&experimentPage=${experimentPage}`
+        `/result?userName=${userName}&id=${id}&group=${group}&experimentPage=${experimentPage}`
       );
     }
   }, [page, rest]);
