@@ -79,10 +79,10 @@ const Home: NextPage = () => {
       {userName === "" ? (
         <RestContainer>
           <CheckInForm>
-            <label htmlFor="userName">닉네임을 입력해주세요: </label>
             <input
               id="userName"
               type="text"
+              placeholder="닉네임을 입력해주세요"
               value={userNameInput}
               onChange={(event) => setUserNameInput(event.target.value)}
             />
@@ -188,5 +188,11 @@ const StartButton = styled.button`
 `;
 
 const CheckInForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
   background-color: white;
+
+  gap: 12px;
 `;
