@@ -32,6 +32,7 @@ const Experiment: NextPage = () => {
   const [startTimestap, setStartTimestamp] = useState(new Date().getTime());
   const [lastCorrectness, setLastCorrectness] = useState(0);
   const [lastTime, setLastTime] = useState(0);
+  const modalType = (experimentPage + group) % 3;
 
   const {
     currentTargets: currentBackgroundTargets,
@@ -143,6 +144,7 @@ const Experiment: NextPage = () => {
 
           {remainedTargetCount <= 3 && remainedModalTargetCount > 0 && (
             <Modal
+              modalType={modalType}
               values={currentModalTargets}
               onChange={(values, correctness) => {
                 setCurrentModalTargets(values);
