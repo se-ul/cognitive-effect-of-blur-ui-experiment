@@ -76,8 +76,8 @@ const Experiment: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Blur Effect 실험</title>
-        <meta name="description" content="Blur Effect 실험" />
+        <title>실험 애플리케이션</title>
+        <meta name="description" content="실험 애플리케이션" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
