@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 const Result: NextPage = () => {
   const router = useRouter();
 
-  const { userName, group, experimentPage, correctness } = router.query;
+  const { userName, group, experimentPage } = router.query;
 
   return (
     <Center>
@@ -16,8 +16,6 @@ const Result: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Content>
-        <h1>결과</h1>
-        <p>정확도: {Math.floor(Number(correctness))}%</p>
         <p>
           총 {3}개의 실험 중 {Number(experimentPage) + 1}번째 실험이 끝났습니다.
         </p>
@@ -27,14 +25,14 @@ const Result: NextPage = () => {
               router.replace(`/finish?userName=${userName}`);
             } else {
               router.replace(
-                `/experiment?userName=${userName}group=${group}&experimentPage=${
+                `/experiment?userName=${userName}&group=${group}&experimentPage=${
                   Number(experimentPage) + 1
                 }`
               );
             }
           }}
         >
-          다음 실험 시작하기
+          {Number(experimentPage) < 3 ? "다음 실험 시작하기" : "실험 종료하기"}
         </button>
       </Content>
     </Center>

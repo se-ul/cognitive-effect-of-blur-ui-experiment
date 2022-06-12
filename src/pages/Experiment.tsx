@@ -29,6 +29,8 @@ const Experiment: NextPage = () => {
     }[]
   >([]);
   const [startTimestap, setStartTimestamp] = useState(new Date().getTime());
+  const [lastCorrectness, setLastCorrectness] = useState(0);
+  const [lastTime, setLastTime] = useState(0);
 
   const {
     currentTargets: currentBackgroundTargets,
@@ -54,24 +56,27 @@ const Experiment: NextPage = () => {
 
   useEffect(() => {
     if (remainedTargetCount === 0) {
+      const targets = [...currentBackgroundTargets, ...currentModalTargets];
+      const checkedTargets = targets.filter((target) => target.checked);
+      const correctness =
+        (checkedTargets.filter((target) => target.value === 3).length /
+          checkedTargets.length) *
+        100;
+      setLastTime(new Date().getTime() - startTimestap);
+      setLastCorrectness(correctness);
       setRest(true);
       setPage((page) => page + 1);
     }
   }, [remainedTargetCount]);
 
   useEffect(() => {
-    if (page >= numberOfSets) {
+    if (page >= numberOfSets && !rest) {
       recordResult({ name: userName, group, experimentPage, result });
-      const correctness =
-        (result.filter((value) => value.correctness).length / result.length) *
-        100;
-      setResult([]);
-
       router.replace(
-        `/result?group=${group}&experimentPage=${experimentPage}&correctness=${correctness}`
+        `/result?userName=${userName}&group=${group}&experimentPage=${experimentPage}`
       );
     }
-  }, [page]);
+  }, [page, rest]);
 
   return (
     <>
@@ -83,14 +88,28 @@ const Experiment: NextPage = () => {
 
       {rest ? (
         <RestContainer>
-          현재 단계: {page + 1} / 총 단계: {numberOfSets}
+          {page > 0 && (
+            <>
+              <h1>결과</h1>
+              <p>정확도: {lastCorrectness}%</p>
+              <p>소요 시간: {lastTime / 1000}초</p>
+              <br />
+              <br />
+            </>
+          )}
+
+          {page < numberOfSets && (
+            <p>
+              다음 단계: {page + 1} / 총 단계: {numberOfSets}
+            </p>
+          )}
           <StartButton
             onClick={() => {
               setRest(false);
               setStartTimestamp(new Date().getTime());
             }}
           >
-            시작하기
+            {page < numberOfSets ? "시작하기" : "다음 실험으로"}
           </StartButton>
         </RestContainer>
       ) : (

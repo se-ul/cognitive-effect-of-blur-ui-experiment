@@ -18,6 +18,9 @@ const Experiment: NextPage = () => {
 
       <RestContainer>
         <CheckInForm>
+          <label htmlFor="userName">
+            *띄어쓰기, 특수문자는 사용하지 말아주세요
+          </label>
           <input
             id="userName"
             type="text"
