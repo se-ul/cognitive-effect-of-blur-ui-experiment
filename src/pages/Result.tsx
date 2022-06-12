@@ -1,12 +1,51 @@
+import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 
 const Result: NextPage = () => {
   const router = useRouter();
 
-  const {} = router.query;
+  const { userName, group, experimentPage, correctness } = router.query;
 
-  return <></>;
+  return (
+    <Center>
+      <Content>
+        <h1>결과</h1>
+        <p>정확도: {Math.floor(Number(correctness))}%</p>
+        <p>
+          총 {3}개의 실험 중 {Number(experimentPage) + 1}번째 실험이 끝났습니다.
+        </p>
+        <button
+          onClick={() =>
+            router.replace(
+              `/experiment?userName=${userName}group=${group}&experimentPage=${
+                Number(experimentPage) + 1
+              }`
+            )
+          }
+        >
+          다음 실험 시작하기
+        </button>
+      </Content>
+    </Center>
+  );
 };
 
 export default Result;
+
+const Center = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Content = styled.div`
+  color: white;
+  padding: 24px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;

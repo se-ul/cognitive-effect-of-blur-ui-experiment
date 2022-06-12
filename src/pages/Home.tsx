@@ -2,71 +2,11 @@ import styled from "@emotion/styled";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Modal, TargetGroup } from "../components";
-import {
-  expData,
-  numberOfBackgroundTargetsPerPage,
-  numberOfModalTargetsPerPage,
-  numberOfSets,
-} from "../data/exp";
-import { useTargetsPerPage } from "../hooks";
-import { recordResult } from "../modules/firebase";
+import { useState } from "react";
 
-const Home: NextPage = () => {
+const Experiment: NextPage = () => {
   const router = useRouter();
   const [userName, setUserName] = useState("");
-  const [userNameInput, setUserNameInput] = useState("");
-  const [rest, setRest] = useState(true);
-  const [experimentPage, setExperimentPage] = useState(0);
-  const [page, setPage] = useState(0);
-  const [result, setResult] = useState<
-    {
-      experimentType: number;
-      setNumber: number;
-      timestamp: number;
-      place: "background" | "modal";
-      correctness: boolean;
-    }[]
-  >([]);
-  const [startTimestap, setStartTimestamp] = useState(new Date().getTime());
-
-  const {
-    currentTargets: currentBackgroundTargets,
-    targetCount,
-    remainedTargetCount,
-    setCurrentTarget: setCurrentBackgroundTargets,
-  } = useTargetsPerPage(
-    expData[experimentPage].backgroundValues,
-    page,
-    numberOfBackgroundTargetsPerPage,
-    experimentPage
-  );
-  const {
-    currentTargets: currentModalTargets,
-    remainedTargetCount: remainedModalTargetCount,
-    setCurrentTarget: setCurrentModalTargets,
-  } = useTargetsPerPage(
-    expData[experimentPage].modalValues,
-    page,
-    numberOfModalTargetsPerPage,
-    experimentPage
-  );
-
-  useEffect(() => {
-    if (remainedTargetCount === 0) {
-      setRest(true);
-      setPage((page) => page + 1);
-    }
-  }, [remainedTargetCount]);
-
-  useEffect(() => {
-    if (page >= numberOfSets) {
-      recordResult({ name: userName, result });
-      setResult([]);
-      router.replace(`/result?group=0&experimentType=${experimentPage + 1}`);
-    }
-  }, [page]);
 
   return (
     <>
@@ -76,102 +16,35 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {userName === "" ? (
-        <RestContainer>
-          <CheckInForm>
-            <input
-              id="userName"
-              type="text"
-              placeholder="닉네임을 입력해주세요"
-              value={userNameInput}
-              onChange={(event) => setUserNameInput(event.target.value)}
-            />
-            <button onClick={() => setUserName(userNameInput)}>시작하기</button>
-          </CheckInForm>
-        </RestContainer>
-      ) : rest ? (
-        <RestContainer>
-          현재 단계: {page + 1} / 총 단계: {numberOfSets}
+      <RestContainer>
+        <CheckInForm>
+          <input
+            id="userName"
+            type="text"
+            placeholder="닉네임을 입력해주세요"
+            value={userName}
+            onChange={(event) => setUserName(event.target.value)}
+          />
           <StartButton
-            onClick={() => {
-              setRest(false);
-              setStartTimestamp(new Date().getTime());
+            type="submit"
+            onClick={(event) => {
+              event.preventDefault();
+              router.replace(
+                `/experiment?userName=${userName}&group=${Math.floor(
+                  Math.random() * 3
+                )}&experimentPage=0`
+              );
             }}
           >
             시작하기
           </StartButton>
-        </RestContainer>
-      ) : (
-        <>
-          <StatusBar>
-            <span style={{ backgroundColor: "white", fontSize: 20 }}>
-              {remainedTargetCount} / {targetCount}
-            </span>
-          </StatusBar>
-
-          <Content>
-            <TargetGroup
-              values={currentBackgroundTargets}
-              numberOfColumns={4}
-              numberOfRows={5}
-              onChange={(values, correctness) => {
-                setCurrentBackgroundTargets(values);
-                setResult((lastValue) => [
-                  ...lastValue,
-                  {
-                    experimentType: experimentPage,
-                    setNumber: page,
-                    timestamp: new Date().getTime() - startTimestap,
-                    place: "background",
-                    correctness,
-                  },
-                ]);
-              }}
-            />
-          </Content>
-
-          {remainedTargetCount <= targetCount / 2 &&
-            remainedModalTargetCount > 0 && (
-              <Modal
-                values={currentModalTargets}
-                onChange={(values, correctness) => {
-                  setCurrentModalTargets(values);
-                  setResult((lastValue) => [
-                    ...lastValue,
-                    {
-                      experimentType: experimentPage,
-                      setNumber: page,
-                      timestamp: new Date().getTime() - startTimestap,
-                      place: "modal",
-                      correctness,
-                    },
-                  ]);
-                }}
-              />
-            )}
-        </>
-      )}
+        </CheckInForm>
+      </RestContainer>
     </>
   );
 };
 
-export default Home;
-
-const StatusBar = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-`;
-
-const Content = styled.div`
-  background-color: white;
-  font-size: 32px;
-  height: 100%;
-`;
+export default Experiment;
 
 const RestContainer = styled.div`
   background-color: white;
