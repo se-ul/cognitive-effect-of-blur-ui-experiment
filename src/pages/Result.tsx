@@ -16,13 +16,17 @@ const Result: NextPage = () => {
           총 {3}개의 실험 중 {Number(experimentPage) + 1}번째 실험이 끝났습니다.
         </p>
         <button
-          onClick={() =>
-            router.replace(
-              `/experiment?userName=${userName}group=${group}&experimentPage=${
-                Number(experimentPage) + 1
-              }`
-            )
-          }
+          onClick={() => {
+            if (Number(experimentPage) + 1 >= 3) {
+              router.replace(`/finish?userName=${userName}`);
+            } else {
+              router.replace(
+                `/experiment?userName=${userName}group=${group}&experimentPage=${
+                  Number(experimentPage) + 1
+                }`
+              );
+            }
+          }}
         >
           다음 실험 시작하기
         </button>
