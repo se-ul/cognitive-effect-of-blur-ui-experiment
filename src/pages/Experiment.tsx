@@ -141,24 +141,23 @@ const Experiment: NextPage = () => {
             />
           </Content>
 
-          {remainedTargetCount <= targetCount / 2 &&
-            remainedModalTargetCount > 0 && (
-              <Modal
-                values={currentModalTargets}
-                onChange={(values, correctness) => {
-                  setCurrentModalTargets(values);
-                  setResult((lastValue) => [
-                    ...lastValue,
-                    {
-                      setNumber: page,
-                      timestamp: new Date().getTime() - startTimestap,
-                      place: "modal",
-                      correctness,
-                    },
-                  ]);
-                }}
-              />
-            )}
+          {remainedTargetCount <= 3 && remainedModalTargetCount > 0 && (
+            <Modal
+              values={currentModalTargets}
+              onChange={(values, correctness) => {
+                setCurrentModalTargets(values);
+                setResult((lastValue) => [
+                  ...lastValue,
+                  {
+                    setNumber: page,
+                    timestamp: new Date().getTime() - startTimestap,
+                    place: "modal",
+                    correctness,
+                  },
+                ]);
+              }}
+            />
+          )}
         </>
       )}
     </>
