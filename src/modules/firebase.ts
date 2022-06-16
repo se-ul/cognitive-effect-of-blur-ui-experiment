@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { addDoc, collection, getFirestore } from "firebase/firestore";
+import { useCollection } from "react-firebase-hooks/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAz7nA1rpTe5OaDToZdED47pIg9HKEbuBE",
@@ -18,4 +19,9 @@ export async function recordResult(result: any) {
   await addDoc(docRef, {
     value: JSON.stringify(result),
   });
+}
+
+export function useResults() {
+  const docRef = collection(firestoreDB, "results");
+  return useCollection(docRef);
 }
